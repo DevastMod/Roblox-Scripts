@@ -22,7 +22,7 @@ local function onUserInput(input, gameProcessed)
         -- Get the C4, RPG, and Rifle tools from the player's backpack
         local c4 = player.Backpack:FindFirstChild("C4")
         local rpg = player.Backpack:FindFirstChild("RPG")
-        local rifle = player.Backpack:FindFirstChild("Rifle")
+        --local rifle = player.Backpack:FindFirstChild("Rifle")
         local grenade = player.Backpack:FindFirstChild("Grenade")
         local dynamite = player.Backpack:FindFirstChild("Dynamite")
 
@@ -35,9 +35,9 @@ local function onUserInput(input, gameProcessed)
             rpg.Parent = game:GetService("Workspace")[player.Name]
         end
 
-        if rifle then
-            rifle.Parent = game:GetService("Workspace")[player.Name]
-        end
+        --if rifle then
+        --    rifle.Parent = game:GetService("Workspace")[player.Name]
+        --end
 
         if grenade then
             grenade.Parent = game:GetService("Workspace")[player.Name]
@@ -50,29 +50,27 @@ local function onUserInput(input, gameProcessed)
     end
 end
 
--- Function to handle user input for R key
-local function onRInput(input, gameProcessed)
-    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.R and input.UserInputState == Enum.UserInputState.Begin and not gameProcessed then
-        -- Get the local player
-        local player = game:GetService("Players").LocalPlayer
 
-        -- Define the part name to search for
-        local partName = "Cache"
+local function bringcrate()
+    -- Get the local player
+    local player = game:GetService("Players").LocalPlayer
 
-        -- Search for the part and its children in ManagedObjects
-        local part = game:GetService("Workspace").ManagedObjects:FindFirstChild(partName, true)
-        if not part then
-            print("Error: Part not found")
-            return
-        end
+    -- Define the part name to search for
+    local partName = "Cache"
 
-        -- Teleport the part and its children to the player
-        local rootPart = part:FindFirstChild("HumanoidRootPart", true)
-        if rootPart then
-            rootPart.CFrame = player.Character.HumanoidRootPart.CFrame
-        else
-            part.CFrame = player.Character.HumanoidRootPart.CFrame
-        end
+    -- Search for the part and its children in ManagedObjects
+    local part = game:GetService("Workspace").ManagedObjects:FindFirstChild(partName, true)
+    if not part then
+        print("Error: Part not found")
+        return
+    end
+
+    -- Teleport the part and its children to the player
+    local rootPart = part:FindFirstChild("HumanoidRootPart", true)
+    if rootPart then
+        rootPart.CFrame = player.Character.HumanoidRootPart.CFrame
+    else
+        part.CFrame = player.Character.HumanoidRootPart.CFrame
     end
 end
 
@@ -80,8 +78,6 @@ end
 userInputService.InputBegan:Connect(onUserInput)
 userInputService.InputEnded:Connect(onUserInput)
 
--- Bind the onRInput function to the UserInputService
-userInputService.InputBegan:Connect(onRInput)
 
 -- Loop to simulate mouse click when Q is held down
 game:GetService("RunService").Heartbeat:Connect(function()
@@ -89,6 +85,7 @@ game:GetService("RunService").Heartbeat:Connect(function()
         local currentTime = os.clock()
         if currentTime - lastClickTime >= clickDelay then
             mouse1click()
+            bringcrate()
             lastClickTime = currentTime
         end
     end
